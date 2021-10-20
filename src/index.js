@@ -1,5 +1,7 @@
 const express = require('express');
-const { response } = require('express');
+const { handleGreeting, otherValue } = require('./greeting');
+const handleCatFactsRequest = require('./catFacts');
+const handleBreakingBadQuotesRequest = require('./breakingBadQuotes');
 const app = express();
 const port = 3000;
 
@@ -12,15 +14,13 @@ app.get("/test", (req, res) => {
 });
 
 app.get("/hello/:name?", (req, res) => {
-    if(!req.params.name) {
-        res.send("Hello world cus undefined!");
-    }
-    else {
-        const message = "Hello " + req.params.name;
-        res.send(message);
-    }
-    
-})
+    handleGreeting(req, res);
+    console.log(otherValue);
+});
+
+app.get('/cat/facts', handleCatFactsRequest);
+
+app.get('/breakingbad/quotes', handleBreakingBadQuotesRequest);
 
 app.listen(port, () => {
     console.log("Server started on", port);
